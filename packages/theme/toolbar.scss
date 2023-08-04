@@ -16,6 +16,16 @@
   }
 }
 
+.bpmn-toolbar .bpmn-toolbar-right{
+  display: flex;
+  right: 10px;
+  position: absolute;
+  margin-right: 10px;
+  > div[class^='el-button-group'] + div[class^='el-button-group'] {
+    margin-left: 16px;
+  }
+}
+
 .el-popover.button-popover {
   min-width: unset;
   padding: 8px 16px;

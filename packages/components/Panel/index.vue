@@ -1,14 +1,16 @@
 <template>
-  <div class="bpmn-panel" ref="panel">
-    <div class="panel-header">
-      <bpmn-icon :name="bpmnIconName" />
-      <p>{{ bpmnElementName }}</p>
-      <p>{{ customTranslate(currentElementType || "Process") }}</p>
+  <el-drawer :visible.sync="modelVisible" :size="485" :wrapperClosable="true" :with-header="false" append-to-body>
+    <div class="bpmn-panel" ref="panel">
+      <div class="panel-header">
+        <bpmn-icon :name="bpmnIconName" />
+        <p>{{ bpmnElementName }}</p>
+        <p>{{ customTranslate(currentElementType || "Process") }}</p>
+      </div>
+      <el-collapse>
+        <component v-for="cp in this.renderComponents" :key="cp.name" :is="cp" />
+      </el-collapse>
     </div>
-    <el-collapse>
-      <component v-for="cp in this.renderComponents" :key="cp.name" :is="cp" />
-    </el-collapse>
-  </div>
+  </el-drawer>
 </template>
 
 <script>
@@ -52,6 +54,7 @@ export default {
   },
   data() {
     return {
+      modelVisible: false,
       bpmnElementName: "Process",
       bpmnIconName: "Process",
       currentElementType: undefined,
@@ -69,11 +72,21 @@ export default {
       // 监听选择事件，修改当前激活的元素以及表单
       modeler.on("selection.changed", ({ newSelection }) => {
         this.setCurrentElement(newSelection[0] || null);
+        console.log(newSelection, "====");
+      });
+      modeler.on("element.dblclick", ({ element }) => {
+        if (element) {
+          this.modelVisible = !this.modelVisible;
+        }
+        if (element && element.id === this.currentElementId) {
+          this.setCurrentElement(element);
+        }
       });
       modeler.on("element.changed", ({ element }) => {
         // 保证 修改 "默认流转路径" 等类似需要修改多个元素的事件发生的时候，更新表单的元素与原选中元素不一致。
         if (element && element.id === this.currentElementId) {
           this.setCurrentElement(element);
+          console.log(element, "111111");
         }
       });
     });
@@ -82,6 +95,10 @@ export default {
     !this.currentElementId && this.setCurrentElement();
   },
   methods: {
+    changeModelVisible(event) {
+      event.stopPropagation();
+      this.modelVisible = !this.modelVisible;
+    },
     //
     setCurrentElement: debounce(function (element) {
       let activatedElement = element,

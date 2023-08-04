@@ -1,5 +1,20 @@
 <template>
   <el-button-group>
+    <el-button
+      v-if="getEditorConfig.useMinimap"
+      v-r-popover:minimapToggle
+      class="el-button__no-padding"
+      @click="minimapToggle"
+    >
+      <lucide-icon name="Map" :size="16" />
+      <el-popover
+        ref="minimapToggle"
+        content="展开/收起小地图"
+        placement="bottom"
+        trigger="hover"
+        popper-class="button-popover"
+      />
+    </el-button>
     <el-button v-r-popover:zoomOut class="el-button__no-padding" @click="zoomOut()">
       <lucide-icon name="ZoomOut" :size="16" />
       <el-popover ref="zoomOut" placement="bottom" trigger="hover" popper-class="button-popover" content="缩小视图" />
@@ -29,7 +44,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["getModeler"])
+    ...mapGetters(["getModeler", "getEditorConfig"])
   },
   created() {
     EventEmitter.on("modeler-init", (modeler) => {
@@ -54,6 +69,9 @@ export default {
     zoomIn(newScale) {
       this.currentScale = newScale || Math.floor(this.currentScale * 100 + 0.1 * 100) / 100;
       this.zoomReset(this.currentScale);
+    },
+    minimapToggle() {
+      this.getModeler?.get("minimap")?.toggle();
     }
   }
 };

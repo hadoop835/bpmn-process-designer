@@ -1,7 +1,7 @@
 import { assign } from "min-dash";
 import { notNull } from "../../../utils/tool";
 
-export function createAction(elementFactory, create, type, group, className, title, options) {
+export function createAction(elementFactory, create, type, group, className, title, groupName, options) {
   function createListener(event) {
     const shape = elementFactory.createShape(assign({ type: type }, options));
 
@@ -17,6 +17,7 @@ export function createAction(elementFactory, create, type, group, className, tit
     group: group,
     className: className,
     title: title,
+    groupName: groupName,
     action: {
       dragstart: createListener,
       click: createListener

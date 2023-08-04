@@ -1,14 +1,16 @@
 <template>
   <div class="bpmn-toolbar">
-    <el-button-group>
-      <bpmn-import />
-      <bpmn-exports />
-      <bpmn-previews />
-    </el-button-group>
-    <bpmn-aligns />
-    <bpmn-scales />
     <bpmn-commands />
+    <bpmn-aligns />
     <bpmn-externals />
+    <div class="bpmn-toolbar-right">
+      <bpmn-scales />
+      <el-button-group>
+        <bpmn-import />
+        <bpmn-exports />
+        <bpmn-previews />
+      </el-button-group>
+    </div>
   </div>
 </template>
 

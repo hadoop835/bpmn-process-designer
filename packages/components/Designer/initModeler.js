@@ -18,6 +18,7 @@ export default function (designerDom, moduleAndExtensions, context) {
   context.$store.commit("clearBpmnState");
 
   const modeler = new Modeler(options);
+  console.log(modeler, "1111");
 
   context.$store.commit("setModeler", modeler);
 

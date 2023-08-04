@@ -1,4 +1,6 @@
 .bpmn-panel {
+  position: absolute;
+  right: 0px;
   display: flex;
   width: 480px;
   height: 100%;
@@ -63,3 +65,4 @@
     }
   }
 }
+

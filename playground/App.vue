@@ -3,10 +3,8 @@
     <bpmn-toolbar v-if="getEditorConfig.toolbar" />
     <div class="main-content">
       <bpmn-designer :xml.sync="xmlString" />
-      <bpmn-panel v-if="getEditorConfig.penalMode === 'custom'" />
-      <div v-else class="camunda-panel" id="camunda-panel"></div>
     </div>
-
+    <bpmn-panel v-if="getEditorConfig.penalMode === 'custom'" />
     <bpmn-settings />
     <bpmn-context-menu />
   </div>

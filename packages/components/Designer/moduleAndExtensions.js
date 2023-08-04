@@ -11,7 +11,7 @@ import {
 import ElementTemplateChooserModule from "@bpmn-io/element-template-chooser";
 import ConnectorsExtensionModule from "bpmn-js-connectors-extension";
 // 官方 默认点状背景
-import Grid from "diagram-js/lib/features/grid-snapping/visuals";
+import Grid from "diagram-js/lib/features/grid-snapping";
 // 流程图校验部分
 import lintModule from "bpmn-js-bpmnlint";
 import { resolver, rules } from "@packages/additional-modules/Lint/bpmnlint";
@@ -28,6 +28,7 @@ import zeebeModdleDescriptors from "@packages/moddle-extensions/zeebe.json";
 // 自定义扩展部分
 import EnhancementPalette from "@packages/additional-modules/Palette/EnhancementPalette";
 import RewritePalette from "@packages/additional-modules/Palette/RewritePalette";
+import CustomPalette from "@packages/additional-modules/Palette/CustomPalette";
 import EnhancementContextPad from "@packages/additional-modules/ContextPad/EnhancementContextPad";
 import RewriteContextPad from "@packages/additional-modules/ContextPad/RewriteContextPad";
 import EnhancementRenderer from "@packages/additional-modules/Renderer/EnhancementRenderer";
@@ -41,11 +42,11 @@ export default function (settings) {
   const modules = []; // modules 扩展模块数组
   let moddle = {}; // moddle 声明文件对象
   const options = {}; // modeler 其他配置
-
+  modules.push(CustomPalette);
   // 配置 palette (可覆盖 paletteProvider 取消原生侧边栏)
-  settings.paletteMode === "enhancement" && modules.push(EnhancementPalette);
-  settings.paletteMode === "rewrite" && modules.push(RewritePalette);
-  settings.paletteMode === "custom" && modules.push({ paletteProvider: ["type", function () {}] });
+  // settings.paletteMode === "enhancement" && modules.push(EnhancementPalette);
+  // settings.paletteMode === "rewrite" && modules.push(RewritePalette);
+  //settings.paletteMode === "custom" && modules.push();
 
   // 配置 contextPad (可覆盖 contextPadProvider 取消原生上下文菜单)
   settings.contextPadMode === "enhancement" && modules.push(EnhancementContextPad);
@@ -100,7 +101,8 @@ export default function (settings) {
   if (settings.useMinimap) {
     modules.push(minimapModule);
     options["minimap"] = {
-      open: true
+      open: true,
+      title: "111"
     };
   }
 
